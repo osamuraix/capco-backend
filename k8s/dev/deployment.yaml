@@ -5,24 +5,24 @@ metadata:
 spec:
   replicas: 2
   selector:
-	matchLabels:
-	  app: backend
+    matchLabels:
+      app: backend
   template:
-	metadata:
-	  labels:
-		app: backend
-	spec:
-	  containers:
-	  - name: backend-container
-		image: hashicorp/http-echo:latest # <-- เปลี่ยนเป็น Docker image ของ backend คุณ
-		args:
-		- "-text=this is the backend" # ตัวอย่างการส่ง argument
-		ports:
-		- containerPort: 5678 # Port ที่แอปฯ ของคุณทำงาน
-		resources:
-		  requests:
-			cpu: "150m"
-			memory: "128Mi"
-		  limits:
-			cpu: "300m"
-			memory: "256Mi"
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend-container
+        image: hashicorp/http-echo:latest
+        args:
+        - "-text=this is the backend"
+        ports:
+        - containerPort: 5678
+        resources:
+          requests:
+            cpu: "150m"
+            memory: "128Mi"
+          limits:
+            cpu: "300m"
+            memory: "256Mi"
