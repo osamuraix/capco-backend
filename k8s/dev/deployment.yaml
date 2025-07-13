@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: backend-container
-        image: hashicorp/http-echo:latest
+        image: asia-southeast1-docker.pkg.dev/terraform-on-gcp-463715/backend/backend:latest
         args:
         - "-text=this is the backend"
         ports:
