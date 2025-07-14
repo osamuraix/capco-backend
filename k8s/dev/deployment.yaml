@@ -18,6 +18,9 @@ spec:
         image: asia-southeast1-docker.pkg.dev/terraform-new-465907/backend/backend:latest
         ports:
         - containerPort: 3000
+        env:
+        - name: PORT
+          value: "3000"
         resources:
           requests:
             cpu: "150m"
