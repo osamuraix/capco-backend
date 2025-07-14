@@ -16,8 +16,6 @@ spec:
       containers:
       - name: backend-container
         image: asia-southeast1-docker.pkg.dev/terraform-new-465907/backend/backend:latest
-        args:
-        - "-text=this is the backend"
         ports:
         - containerPort: 3000
         resources:
