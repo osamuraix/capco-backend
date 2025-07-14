@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "src/server.ts",
   "scripts": {
-    "start": "cross-env NODE_ENV=development node dist/index.js",
+    "start": "cross-env NODE_ENV=production node dist/index.js",
     "build": "tsc && tsc-alias",
     "dev": "cross-env NODE_ENV=development ts-node-dev -r tsconfig-paths/register src/index.ts",
     "test": "cross-env NODE_ENV=test node --expose-gc node_modules/jest/bin/jest --runInBand --verbose --coverage"
