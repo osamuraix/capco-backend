@@ -43,8 +43,8 @@ jobs:
         id: auth
         uses: 'google-github-actions/auth@v1'
         with:
-          workload_identity_provider: 'projects/667667291664/locations/global/workloadIdentityPools/github-actions-pool/providers/backend-provider'
-          service_account: 'backend-ci-sa@terraform-new-465907.iam.gserviceaccount.com'
+          workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
+          service_account: ${{ secrets.GSA_EMAIL }}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
