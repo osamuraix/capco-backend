@@ -58,6 +58,15 @@ jobs:
       - name: Configure Docker for Artifact Registry
         run: gcloud auth configure-docker ${{ env.ARTIFACT_REGISTRY_REPO }} --quiet
 
+      - name: Debug GCP Authentication
+        run: |-
+          echo "--- gcloud auth list ---"
+          gcloud auth list
+          echo "--- gcloud config list ---"
+          gcloud config list
+          echo "--- gcloud auth print-access-token ---"
+          gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://${{ env.ARTIFACT_REGISTRY_REPO }}
+
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v4
         with:

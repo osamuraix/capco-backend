@@ -1,28 +1,43 @@
-# Stage 1: Build the Go application
-FROM golang:1.19-alpine AS builder
+# Stage 1: Builder
+# This stage builds the TypeScript code into JavaScript
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Copy go.mod and go.sum to download dependencies
-COPY go.* ./
-RUN go mod download
+# Copy configuration and dependency files
+COPY package*.json tsconfig.json ./
 
-# Copy the rest of the source code
+# Install all dependencies (including devDependencies) and build the project
+RUN npm ci
 COPY . .
+RUN npm run build
 
-# Build the application as a static binary
-# CGO_ENABLED=0 is important for creating a static binary that can run in a scratch image
-# -ldflags="-w -s" strips debugging information to reduce binary size
-RUN CGO_ENABLED=0 GOOS=linux go build -a -ldflags="-w -s" -o /main .
+# Stage 2: Production
+# This stage creates the final, lean production image
+FROM node:20-alpine
 
-# Stage 2: Create the final, minimal image
-FROM scratch
+WORKDIR /app
 
-# Copy the compiled binary from the builder stage
-COPY --from=builder /main /main
+# Create a non-root user and group
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
-# Expose the port the application runs on (update if necessary)
-EXPOSE 8080
+# Copy only necessary files for production
+COPY package*.json ./
 
-# Set the entrypoint for the container
-ENTRYPOINT ["/main"]
+# Install only production dependencies
+RUN npm ci --omit=dev
+
+# Copy the built application from the 'builder' stage
+COPY --from=builder /app/dist ./dist
+
+# Change ownership of the app directory to the non-root user
+RUN chown -R appuser:appgroup /app
+
+# Switch to the non-root user
+USER appuser
+
+# Expose the application port
+EXPOSE 3000
+
+# Command to start the application
+CMD ["npm", "start"]

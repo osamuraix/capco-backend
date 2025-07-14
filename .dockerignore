@@ -1,0 +1,21 @@
+# Dependencies
+node_modules
+npm-debug.log
+
+# Local Environment
+.env*.local
+.env
+
+# Git
+.git
+.gitignore
+
+# VSCode
+.vscode
+
+# Test related
+coverage
+src/__integration_tests__
+
+# Misc
+dist
