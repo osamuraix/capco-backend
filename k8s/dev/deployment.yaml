@@ -15,6 +15,8 @@ spec:
         vault.hashicorp.com/agent-inject: 'true'
         vault.hashicorp.com/role: 'backend'
         vault.hashicorp.com/agent-inject-secret-app-secrets.env: 'secret/data/backend/app'
+        vault.hashicorp.com/agent-requests-cpu: "100m"
+        vault.hashicorp.com/agent-limits-cpu: "250m"
         vault.hashicorp.com/agent-inject-template-app-secrets.env: |
           {{- with secret "secret/data/backend/app" -}}
           {{- range $k, $v := .Data.data }}
